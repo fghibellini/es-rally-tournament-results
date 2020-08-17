@@ -1,4 +1,6 @@
-cat races.json | jq -r '
+#!/usr/bin/env bash
+
+jq -r '
   def object_flatten: [(paths(scalars) as $p | { key: ($p | join(".")), value: getpath($p) })] | from_entries;
 
   .hits.hits |

@@ -10,58 +10,266 @@ body, html {
   padding: 0;
   margin: 0;
 }
-body {
+#vars {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
 }
-img {
+.var {
   flex: 0 0 25%;
   width: 25%;
   margin: 100px 0;
   /*max-width: 40%; */
+  display: flex;
+  flex-direction: row;
+}
+.img-plot, .img-table {
+  max-width: 100%;
+}
+.img-table {
+  display: none;
+}
+.var.focused .img-table {
+  display: inline;
+}
+#back-button {
+  display: none;
+  margin: 10px;
+}
+.single-focused #back-button {
+  display: inline;
+}
+.single-focused .var:not(.focused) {
+  display: none;
+}
+.hint {
+  margin: 55px 20px 0;
+  color: #aaa;
+}
+.single-focused .hint {
+  display: none;
 }
 </style>
 </head>
 <body>
-<img src="./plots/plot-0.png">
-<img src="./plots/plot-1.png">
-<img src="./plots/plot-2.png">
-<img src="./plots/plot-3.png">
-<img src="./plots/plot-4.png">
-<img src="./plots/plot-5.png">
-<img src="./plots/plot-6.png">
-<img src="./plots/plot-7.png">
-<img src="./plots/plot-8.png">
-<img src="./plots/plot-9.png">
-<img src="./plots/plot-10.png">
-<img src="./plots/plot-11.png">
-<img src="./plots/plot-12.png">
-<img src="./plots/plot-13.png">
-<img src="./plots/plot-14.png">
-<img src="./plots/plot-15.png">
-<img src="./plots/plot-16.png">
-<img src="./plots/plot-17.png">
-<img src="./plots/plot-18.png">
-<img src="./plots/plot-19.png">
-<img src="./plots/plot-20.png">
-<img src="./plots/plot-21.png">
-<img src="./plots/plot-22.png">
-<img src="./plots/plot-23.png">
-<img src="./plots/plot-24.png">
-<img src="./plots/plot-25.png">
-<img src="./plots/plot-26.png">
-<img src="./plots/plot-27.png">
-<img src="./plots/plot-28.png">
-<img src="./plots/plot-29.png">
-<img src="./plots/plot-30.png">
-<img src="./plots/plot-31.png">
-<img src="./plots/plot-32.png">
-<img src="./plots/plot-33.png">
-<img src="./plots/plot-34.png">
-<img src="./plots/plot-35.png">
-<img src="./plots/plot-36.png">
-<img src="./plots/plot-37.png">
+
+  <button id="back-button">&lt; back (Esc)</button>
+
+  <p class="hint">Click on a chart to focus it and display more details</p>
+
+  <div id="vars">
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-0.png">
+    <img class="img-table" src="./plots/table-0.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-1.png">
+    <img class="img-table" src="./plots/table-1.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-2.png">
+    <img class="img-table" src="./plots/table-2.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-3.png">
+    <img class="img-table" src="./plots/table-3.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-4.png">
+    <img class="img-table" src="./plots/table-4.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-5.png">
+    <img class="img-table" src="./plots/table-5.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-6.png">
+    <img class="img-table" src="./plots/table-6.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-7.png">
+    <img class="img-table" src="./plots/table-7.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-8.png">
+    <img class="img-table" src="./plots/table-8.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-9.png">
+    <img class="img-table" src="./plots/table-9.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-10.png">
+    <img class="img-table" src="./plots/table-10.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-11.png">
+    <img class="img-table" src="./plots/table-11.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-12.png">
+    <img class="img-table" src="./plots/table-12.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-13.png">
+    <img class="img-table" src="./plots/table-13.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-14.png">
+    <img class="img-table" src="./plots/table-14.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-15.png">
+    <img class="img-table" src="./plots/table-15.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-16.png">
+    <img class="img-table" src="./plots/table-16.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-17.png">
+    <img class="img-table" src="./plots/table-17.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-18.png">
+    <img class="img-table" src="./plots/table-18.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-19.png">
+    <img class="img-table" src="./plots/table-19.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-20.png">
+    <img class="img-table" src="./plots/table-20.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-21.png">
+    <img class="img-table" src="./plots/table-21.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-22.png">
+    <img class="img-table" src="./plots/table-22.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-23.png">
+    <img class="img-table" src="./plots/table-23.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-24.png">
+    <img class="img-table" src="./plots/table-24.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-25.png">
+    <img class="img-table" src="./plots/table-25.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-26.png">
+    <img class="img-table" src="./plots/table-26.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-27.png">
+    <img class="img-table" src="./plots/table-27.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-28.png">
+    <img class="img-table" src="./plots/table-28.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-29.png">
+    <img class="img-table" src="./plots/table-29.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-30.png">
+    <img class="img-table" src="./plots/table-30.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-31.png">
+    <img class="img-table" src="./plots/table-31.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-32.png">
+    <img class="img-table" src="./plots/table-32.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-33.png">
+    <img class="img-table" src="./plots/table-33.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-34.png">
+    <img class="img-table" src="./plots/table-34.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-35.png">
+    <img class="img-table" src="./plots/table-35.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-36.png">
+    <img class="img-table" src="./plots/table-36.png">
+  </div>
+
+  <div class="var">
+    <img class="img-plot" src="./plots/plot-37.png">
+    <img class="img-table" src="./plots/table-37.png">
+  </div>
+
+  </div>
+
+  <script>
+    const backButton = document.getElementById("back-button");
+    const body = document.body;
+    const varsEl = document.getElementById("vars");
+
+    function unfocus() {
+      body.classList.remove('single-focused');
+      Array.from(document.getElementsByClassName('var')).forEach(d => d.classList.remove('focused'));
+    }
+
+    backButton.addEventListener('click', unfocus);
+    document.addEventListener('keydown', evt => { if (evt.key === 'Escape') unfocus(); });
+
+    varsEl.addEventListener('click', function(evt) {
+      body.classList.add('single-focused');
+      evt.target.closest('.var').classList.add('focused');
+    });
+  </script>
+
 </body>
 </html>

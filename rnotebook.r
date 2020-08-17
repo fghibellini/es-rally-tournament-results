@@ -11,6 +11,11 @@ i <- 0
 # dataframe
 df <- read.csv(file="./data.csv", sep=',', header=FALSE, quote='"', col.names=c("track", "var", "val"))
 
+formatNumber <- function(x) {
+  if (is.integer(x)) x else sprintf("%.2f", x)
+}
+
+
 # min/median/max vars
 {
   vars <- list(
@@ -29,16 +34,32 @@ df <- read.csv(file="./data.csv", sep=',', header=FALSE, quote='"', col.names=c(
 
     tpw <- spread(tp, var, val)
 
+    tpw <- tpw[,c(
+      "track",
+      paste(v, "median", sep=""),
+      paste(v, "min", sep=""),
+      paste(v, "max", sep="")
+    )]
+    names(tpw) <- c("track", "median", "min", "max")
+
     g <- ggplot(tpw, aes_string(
       x = "track",
-      y = paste(v, "median", sep=""),
-      ymin = paste(v, "min", sep=""),
-      ymax = paste(v, "max", sep=""),
+      y = "median",
+      ymin = "min",
+      ymax = "max",
       fill = "track"
-    )) + geom_boxplot() + geom_crossbar() + ylim(0, NA)
+    )) + geom_boxplot() + geom_crossbar() + ylim(0, NA) + theme(legend.position = "none", axis.title.y=element_blank(), axis.title.x=element_blank()) + ggtitle(paste("var: ", v, sep=""))
+
+    print("tpw")
+    print(tpw)
+
+    tpw[2:4] <- lapply(tpw[2:4], formatNumber) # (the first column holds the track_name, we want to format all the others)
+
+    tbl <- tableGrob(tpw, rows = NULL)
 
     #list(label = v, plot = g)
     ggsave(file=paste("plots/plot-", i, ".png", sep=""), plot=g)
+    ggsave(file=paste("plots/table-", i, ".png", sep=""), plot=tbl)
     i <<- i+1
   })
 }
@@ -57,11 +78,25 @@ df <- read.csv(file="./data.csv", sep=',', header=FALSE, quote='"', col.names=c(
 
     tpw <- spread(tp, var, val)
 
+    tpw <- tpw[,c(
+      "track",
+      paste(v, "50_0", sep=""),
+      paste(v, "99_0", sep=""),
+      paste(v, "99_9", sep=""),
+      paste(v, "99_99", sep=""),
+      paste(v, "100_0", sep="")
+   )]
+   names(tpw) <- c("track", "p50_0", "p99_0", "p99_9", "p99_99", "p100_0")
+
+   print("cuuuuuuuuuus")
+
+   print(tpw)
+
     g <- (
         ggplot(tpw, aes_string(
           x = "track",
-          y = paste(v, "50_0", sep=""),
-          label = paste(v, "50_0", sep="")
+          y = "p50_0"
+          #label = "50_0"
           #ymin = paste(v, "min", sep=""),
           #ymin = paste(v, "50_0", sep=""),
           #lower = paste(v, "50_0", sep=""),
@@ -71,59 +106,62 @@ df <- read.csv(file="./data.csv", sep=',', header=FALSE, quote='"', col.names=c(
         ))
       + geom_segment(aes_string(
           x = "track",
-          y = paste(v, "50_0", sep=""),
+          y = "p50_0",
           xend = "track",
-          yend = paste(v, "100_0", sep=""),
+          yend = "p100_0",
           size = 2
         ), colour= "#FFCCCCFF")
       + geom_segment(aes_string(
           x = "track",
-          y = paste(v, "50_0", sep=""),
+          y = "p50_0",
           xend = "track",
-          yend = paste(v, "99_99", sep=""),
+          yend = "p99_99",
           size = 2
         ), colour= "#FFAAAAFF")
       + geom_segment(aes_string(
           x = "track",
-          y = paste(v, "50_0", sep=""),
+          y = "p50_0",
           xend = "track",
-          yend = paste(v, "99_9", sep=""),
+          yend = "p99_9",
           size = 2
         ), colour= "#FF8888FF")
       + geom_segment(aes_string(
           x = "track",
-          y = paste(v, "50_0", sep=""),
+          y = "p50_0",
           xend = "track",
-          yend = paste(v, "99_0", sep=""),
+          yend = "p99_0",
           size = 2
         ), colour= "#FF0000FF")
       + geom_point(size = 2, shape = 18, colour= "#000000FF")
       + geom_point(aes_string(
           x = "track",
-          y = paste(v, "100_0", sep="")
+          y = "p100_0"
         ), size = 2, shape =18, colour= "#000000FF")
       + geom_point(aes_string(
           x = "track",
-          y = paste(v, "99_99", sep="")
+          y = "p99_99"
         ), size = 2, shape =18, colour= "#000000FF")
       + geom_point(aes_string(
           x = "track",
-          y = paste(v, "99_9", sep="")
+          y = "p99_9"
         ), size = 2, shape =18, colour= "#000000FF")
       + geom_point(aes_string(
           x = "track",
-          y = paste(v, "99_0", sep="")
+          y = "p99_0"
         ), size = 2, shape =18, colour= "#000000FF")
-      #+ geom_text(hjust = "right")
       + ylim(0, NA)
+      + ggtitle(paste("var: ", v, sep=""))
     )
 
-    #tbl <- tableGrob(tpw)
+    tpw[2:6] <- lapply(tpw[2:6], formatNumber) # (the first column holds the track_name, we want to format all the others)
+
+    tbl <- tableGrob(tpw, rows = NULL)
 
     #combined <- grid.arrange(g, tbl, nrow=2)
 
     #list(label = v, plot = g)
     ggsave(file=paste("plots/plot-", i, ".png", sep=""), plot=g)
+    ggsave(file=paste("plots/table-", i, ".png", sep=""), plot=tbl)
     i <<- i+1
   })
 }
@@ -158,14 +196,30 @@ df <- read.csv(file="./data.csv", sep=',', header=FALSE, quote='"', col.names=c(
 
     tpw <- spread(tp, var, val)
 
-    g <- ggplot(tpw, aes_string(
-      x = "track",
-      y = v,
-      fill = "track"
-    )) + geom_bar(stat = "identity") + ylim(0, NA)
+    tpw <- tpw[,c(
+      "track",
+      v
+    )]
+    names(tpw) <- c("track", "value")
+
+    g <- (
+      ggplot(tpw, aes_string(
+        x = "track",
+        y = "value",
+        fill = "track"
+      ))
+      + geom_bar(stat = "identity")
+      + ylim(0, NA)
+      + ggtitle(paste("var: ", v, sep=""))
+    )
+
+    tpw[2] <- lapply(tpw[2], formatNumber) # (the first column holds the track_name, we want to format all the others)
+
+    tbl <- tableGrob(tpw, rows = NULL)
 
     #list(label = v, plot = g)
     ggsave(file=paste("plots/plot-", i, ".png", sep=""), plot=g)
+    ggsave(file=paste("plots/table-", i, ".png", sep=""), plot=tbl)
     i <<- i+1
   })
 }
