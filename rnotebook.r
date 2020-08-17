@@ -4,6 +4,8 @@ library(dplyr)
 library(ggpubr)
 library(gridExtra)
 library(grid)
+library(rjson)
+library(stringr)
 
 # plot counter (for filename)
 i <- 0
@@ -50,9 +52,6 @@ formatNumber <- function(x) {
       fill = "track"
     )) + geom_boxplot() + geom_crossbar() + ylim(0, NA) + theme(legend.position = "none", axis.title.y=element_blank(), axis.title.x=element_blank()) + ggtitle(paste("var: ", v, sep=""))
 
-    print("tpw")
-    print(tpw)
-
     tpw[2:4] <- lapply(tpw[2:4], formatNumber) # (the first column holds the track_name, we want to format all the others)
 
     tbl <- tableGrob(tpw, rows = NULL)
@@ -88,21 +87,10 @@ formatNumber <- function(x) {
    )]
    names(tpw) <- c("track", "p50_0", "p99_0", "p99_9", "p99_99", "p100_0")
 
-   print("cuuuuuuuuuus")
-
-   print(tpw)
-
     g <- (
         ggplot(tpw, aes_string(
           x = "track",
           y = "p50_0"
-          #label = "50_0"
-          #ymin = paste(v, "min", sep=""),
-          #ymin = paste(v, "50_0", sep=""),
-          #lower = paste(v, "50_0", sep=""),
-          #upper = paste(v, "90_0", sep=""),
-          #ymax = paste(v, "99_0", sep="")
-          #fill = "track"
         ))
       + geom_segment(aes_string(
           x = "track",
@@ -224,6 +212,17 @@ formatNumber <- function(x) {
   })
 }
 
+jsonPlots <- toJSON(lapply(0:(i-1), function(x) list(
+  plot = paste("plots/plot-", x, ".png", sep=""),
+  table = paste("plots/table-", x, ".png", sep="")
+)))
+
+#write(jsonPlots, file = "./plots.json")
+
+template <- readChar("./index.tpl.html",nchars=1e6)
+indexHtml <- str_replace(template, fixed("{{ ./plots.json }}"), jsonPlots)
+write(indexHtml, file = "./index.html")
+
 #do.call(ggarrange, c(
 #  #lapply(plots, function(x) { x[2] }),
 #  plots,
@@ -234,5 +233,6 @@ formatNumber <- function(x) {
 #  )
 #))
 #
+
 ##dev.off()
 #ggsave("plot.png")
